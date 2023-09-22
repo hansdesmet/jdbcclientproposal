@@ -17,11 +17,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @JdbcTest
 class JdbcClientTest {
     @Autowired
-    private DataSource dataSource;
+    private JdbcClient jdbcClient;
 
     @Test
     void worksWithNamedParamters() {
-        JdbcClient jdbcClient = JdbcClient.create(dataSource);
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcClient.sql("insert into persons(name) values (:name)")
                 .param("name", "test")
@@ -31,7 +30,6 @@ class JdbcClientTest {
 
     @Test
     void doesNotWorkWithPositionalParamters() {
-        JdbcClient jdbcClient = JdbcClient.create(dataSource);
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcClient.sql("insert into persons(name) values (?)")
                 .param("test")
